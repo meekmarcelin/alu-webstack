@@ -34,6 +34,9 @@ defaults
         errorfile 504 /etc/haproxy/errors/504.http
 backend web-backend
         balance roundrobin
+        option forwardfor
+        http-request set-header X-Forwarded-Port %[dst_port]
+        http-request add-header X-Forwarded-Proto https if { ssl_fc }
         server 4971-web-01 23.23.62.187:80 check
         server 4971-web-02 54.211.187.147:80 check
 frontend http
